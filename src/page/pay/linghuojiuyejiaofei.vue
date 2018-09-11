@@ -256,7 +256,7 @@ export default {
     generateBill () {
       let startDate = this.startDate.substring(0, 4) + this.startDate.substring(5)
       let endDate = this.endDate.substring(0, 4) + this.endDate.substring(5)
-      let jfData = [{aab001: '10004728', aac001: '10312698'}]
+      let jfData = [{aab001: this.selectedAccount.aab001, aac001: this.selectedAccount.aac001}]
       let jsonData = []
       if (this.insurance[0] === '11') {
         // 保险选择为养老

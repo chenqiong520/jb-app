@@ -59,7 +59,7 @@ export default {
     queryToDate (year) {
       this.loadDate = year
       const params = api.getParam('F002.001.002', {aae003: year})
-      this.$vux.loading.show({text: '登录中'})
+      this.$vux.loading.show({text: '加载中'})
       api.postData(this, params).then((data) => {
         this.$vux.loading.hide()
         this.showNoData = false

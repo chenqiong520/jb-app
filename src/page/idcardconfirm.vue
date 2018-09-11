@@ -71,8 +71,6 @@ export default {
         })
         return
       }
-      console.log(this.PhoneNum)
-      console.log(window.localStorage['token'])
       window.AndroidInterface.ConfirmUpload(this.IDCardNum, this.PhoneNum, window.localStorage['token'])
     }
   }

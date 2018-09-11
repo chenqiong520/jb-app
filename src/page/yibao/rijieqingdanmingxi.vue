@@ -20,6 +20,10 @@
           <div class="item_record"><span class="item_key">自付金额</span> <span class="item_value">{{item.AKC228}}</span></div>
           <div class="item_record"><span class="item_key">报销金额</span> <span class="item_value">{{item.BXJE }}</span></div>
         </div>
+        <div v-if="showNoData" style="text-align: center">
+          <img style="width: 40%;margin: 10px 0" src="../../assets/no_data.png"/>
+          <p>未查询到数据</p>
+        </div>
       </div>
     </div>
   </div>
@@ -48,7 +52,8 @@ export default {
       page: {
         pageNow: 1,
         pageSize: 8
-      }
+      },
+      showNoData: false
     }
   },
   mounted () {
@@ -73,6 +78,7 @@ export default {
       this.$vux.loading.show({text: '加载中'})
       api.postData(this, params, window.localStorage['token']).then((data) => {
         this.$vux.loading.hide()
+        this.showNoData = false
         if (data.code === 0) {
           if (data.data.rows.length > 0) {
             if (this.list.length > 0) {
@@ -84,6 +90,9 @@ export default {
               this.scroll.finishPullUp()
             } else {
               this.list = data.data.rows
+              if (this.list.length < 1) {
+                this.showNoData = true
+              }
               this.$nextTick(() => {
                 this.scroll.refresh()
               })
@@ -93,8 +102,12 @@ export default {
             this.total = data.data.value
           }
         } else {
-          if (data.code === 500) this.list = []
-          this.$vux.toast.text(data.msg, '')
+          if (data.code === 500) {
+            this.showNoData = true
+            this.list = []
+          } else {
+            this.$vux.toast.text(data.msg, '')
+          }
         }
       }).catch((code) => {
         this.$vux.loading.hide()

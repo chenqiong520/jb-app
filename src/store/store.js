@@ -8,8 +8,8 @@ const state = {}
 // state['base'] = '192.1.12.146:8080'
 // state['base'] = '192.1.12.128:8080'
 // state['base'] = '192.1.12.191:8080'
-state['base'] = '218.76.8.53:58080/htds'
-// state['base'] = '61.187.87.133:8081/htds'
+// state['base'] = '218.76.8.53:58080/htds'
+state['base'] = '61.187.87.133:8081/htds'
 state['url'] = ''
 
 const getters = {}

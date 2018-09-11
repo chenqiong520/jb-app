@@ -19,6 +19,10 @@
       </tr>
       </tbody>
     </x-table>
+    <div v-if="showNoData" style="text-align: center">
+      <img style="width: 40%;margin: 10px 0" src="../../assets/no_data.png"/>
+      <p>未查询到数据</p>
+    </div>
   </div>
 </template>
 
@@ -30,7 +34,8 @@ export default {
   components: {XHeader, Datetime, Group, XTable},
   data () {
     return {
-      list: []
+      list: [],
+      showNoData: false
     }
   },
   mounted () {
@@ -46,11 +51,19 @@ export default {
       this.$vux.loading.show({text: '加载中'})
       api.postData(this, params, window.localStorage['token']).then((data) => {
         this.$vux.loading.hide()
+        this.showNoData = false
         if (data.code === 0) {
           this.list = data.data
+          if (this.list.length < 1) {
+            this.showNoData = true
+          }
         } else {
-          if (data.code === 500) this.list = []
-          this.$vux.toast.text(data.msg, '')
+          if (data.code === 500) {
+            this.showNoData = true
+            this.list = []
+          } else {
+            this.$vux.toast.text(data.msg, '')
+          }
         }
       }).catch((code) => {
         this.$vux.loading.hide()
